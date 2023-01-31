@@ -149,6 +149,11 @@ Route::middleware('guest')->namespace('Dispatcher')->group(function () {
     Route::get('dispatch-login', 'DispatcherController@loginView');
 });
 
+Route::middleware('guest')->namespace('DeliveryDispatcher')->group(function () {
+    // Get admin-login form
+    Route::get('dispatch-delivery-login', 'DeliveryDispatcherController@loginView');
+});
+
 
 Route::namespace('Admin')->group(function () {
     Route::get('track/request/{request}', 'AdminViewController@trackTripDetails');
@@ -162,7 +167,7 @@ Route::middleware('auth:web')->group(function () {
         return redirect('login');
     });
     // Masters Crud
-    Route::middleware(role_middleware(Role::webPanelLoginRoles()))->group(function () {
+    // Route::middleware(role_middleware(Role::webPanelLoginRoles()))->group(function () {
         /**
          * Vehicle Types
          */
@@ -180,7 +185,7 @@ Route::middleware('auth:web')->group(function () {
                 Route::get('/delete/{vehicle_type}', 'VehicleTypeController@delete');
             });
         });
-    });
+    // });
 
     Route::namespace('Admin')->group(function () {
         // Change Locale
@@ -460,7 +465,7 @@ Route::middleware('auth:web')->group(function () {
         });
 
         // Manage Notifications
-        Route::group(['prefix' => 'notifications',  'middleware' => 'permission:manage-promo'], function () {
+        Route::group(['prefix' => 'notifications',  'middleware' => 'permission:notifications'], function () {
             Route::get('/push', 'NotificationController@index');
             Route::get('push/fetch', 'NotificationController@fetch');
             Route::get('push/view', 'NotificationController@pushView');
@@ -469,7 +474,7 @@ Route::middleware('auth:web')->group(function () {
         });
 
         // Complaint Title CRUD
-        Route::group(['prefix' => 'complaint/title',  'middleware' => 'permission:cancellation-reason'], function () {
+        Route::group(['prefix' => 'complaint/title',  'middleware' => 'permission:complaints'], function () {
             Route::get('/', 'ComplaintTitleController@index');
             Route::get('/fetch', 'ComplaintTitleController@fetch');
             Route::get('/create', 'ComplaintTitleController@create');
@@ -582,7 +587,7 @@ Route::middleware('auth:web')->group(function () {
         });
 
         // Driver Needed Document CRUD
-        Route::group(['prefix' => 'needed_doc',  'middleware' => 'permission:manage-needed-document'], function () {
+        Route::group(['prefix' => 'needed_doc',  'middleware' => 'permission:manage-driver-needed-document'], function () {
             Route::get('/', 'DriverNeededDocumentController@index');
             Route::get('/fetch', 'DriverNeededDocumentController@fetch');
             Route::get('/create', 'DriverNeededDocumentController@create');

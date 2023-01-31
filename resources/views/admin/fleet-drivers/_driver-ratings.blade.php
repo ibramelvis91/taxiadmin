@@ -8,7 +8,9 @@
                                             <th> @lang('view_pages.mobile')</th>
                                             <th> @lang('view_pages.type')</th>
                                             <th> @lang('view_pages.rating')</th>
+                                            @if(auth()->user()->can('view-fleet-driver-rating'))         
                                             <th> @lang('view_pages.action')</th>
+                                            @endif
 
                                         </tr>
                                     </thead>
@@ -20,7 +22,11 @@
                                         <tr>
                                             <td>{{ $key+1}} </td>
                                             <td>{{$result->name}}</td>
-                                            <td>{{ $result->mobile }}</td>
+                                            @if(env('APP_FOR')=='demo')
+                                            <td>**********</td>
+                                            @else
+                                            <td>{{$result->mobile}}</td>
+                                            @endif
                                             <td>{{$result->vehicleType->name }}</td>
                                            
                                            <td>
@@ -46,7 +52,10 @@
                                                     @endforeach 
 
                                         </td>
+                                        @if(auth()->user()->can('view-fleet-driver-rating'))         
+
                                         <td> <a href="{{ url('driver-ratings/view',$result->id) }}" class="btn btn-primary btn-sm">@lang('view_pages.view')</a></td>
+                                        @endif
 
                                         
                                         </tr>

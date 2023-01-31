@@ -34,7 +34,11 @@
             <td>{{ $key+1 }} </td>
             <td>{{$result->getConvertedCreatedAtAttribute()}}</td>
             <td>{{$result->driverDetail->name }}</td>
-            <td>{{$result->driverDetail->mobile }}</td>
+            @if(env('APP_FOR')=='demo')
+            <td>**********</td>
+            @else
+            <td>{{$result->driverDetail->mobile}}</td>
+            @endif
             <td> {{$result->requested_currency}} {{$result->requested_amount}}</td>
             <td>{{$result->driverDetail->driverWallet->amount_balance }}</td>
             @if ($result->status == 0)
@@ -49,8 +53,11 @@
 <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@lang('view_pages.action')
 </button>
     <div class="dropdown-menu">
+        @if(auth()->user()->can('driver-withdrwal-request-view'))         
         <a class="dropdown-item" href="{{url('withdrawal-requests-lists/view',$result->driverDetail->id)}}">
         <i class="fa fa-dot-circle-o"></i>@lang('view_pages.view_in_detail')</a>
+       @endif
+
     </div>
 </div>
             </td>

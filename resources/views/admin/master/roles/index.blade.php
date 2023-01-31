@@ -10,13 +10,19 @@
         <div class="container-fluid">
 
             <div class="row">
-                <div class="col-sm-12">
 
+                <div class="col-sm-12">
                     <div class="box">
                         <div class="box-header with-border">
                             <form method="get" name="search" action="{{ url('roles') }}">
                                 <div class="row text-right">
-
+                            @if(auth()->user()->can('create-roles'))
+                             <!--    <div class="col-sm-12 text-right">
+                                 <a href="{{ url('roles/create') }}" class="btn btn-primary btn-sm">
+                                    <i class="mdi mdi-plus-circle mr-2"></i>@lang('view_pages.add_role')</a>
+                                </div> -->
+                            @endif
+                        
                                     <div class="col-8 col-md-3">
                                         <div class="form-group">
                                             <input type="text" name="search" class="form-control"
@@ -30,11 +36,6 @@
                                         </button>
                                     </div>
 
-                                    <!-- <div class="col-9 text-right">
-                                            <a href="{{ url('roles/create') }}" class="btn btn-primary btn-sm">
-                                                <i class="mdi mdi-plus-circle mr-2"></i>@lang('view_pages.add_role')</a>
-
-                                        </div> -->
                             </form>
                             <!-- <div class="box-controls pull-right">
                             <div class="lookup lookup-circle lookup-right">
@@ -67,10 +68,12 @@
                                                 <span style="float: right;">
                                                 </span>
                                             </th>
+                                        @if(auth()->user()->can('edit-roles'))
                                             <th> @lang('view_pages.action')
                                                 <span style="float: right;">
                                                 </span>
                                             </th>
+                                        @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -94,6 +97,7 @@
                                                     <td> {{ $result->slug }}</td>
                                                     <td>{{ $result->name }}</td>
                                                     <td>{{ $result->description }} </td>
+                                                @if(auth()->user()->can('edit-roles'))
                                                     <td>
                                                         <a class="btn btn-primary btn-sm"
                                                             href="{{ url('roles/assign/permissions', $result->id) }}">
@@ -102,6 +106,7 @@
                                                         </a>
 
                                                     </td>
+                                                @endif
                                                 </tr>
                                             @endforeach
                                         @endif

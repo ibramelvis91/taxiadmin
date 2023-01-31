@@ -20,6 +20,7 @@ use App\Models\Admin\ZoneTypePackagePrice;
 use Illuminate\Support\Facades\Log;
 use App\Models\Request\RequestCancellationFee;
 use App\Base\Constants\Setting\Settings;
+use App\Jobs\Notifications\SendPushNotification;
 
 /**
  * @group Driver-trips-apis
@@ -260,6 +261,16 @@ class DriverEndRequestController extends BaseController
             
 
         } elseif ($request_detail->payment_opt==PaymentType::CARD) {
+
+            // Update Is paid as 0 since the customer needs to paid with his invoice at end of the ride
+            $request_detail->is_paid = 0;
+
+            $request_detail->save();
+
+            $request_detail->fresh();
+
+            // Payment will be comes from payment gateway controller
+
             // @TODO in future
         } else { //PaymentType::WALLET
             // To Detect Amount From User's Wallet
@@ -377,7 +388,7 @@ class DriverEndRequestController extends BaseController
 
         // dispatch(new NotifyViaMqtt('trip_status_'.$user->id, json_encode($socket_data), $user->id));
 
-        $user->notify(new AndroidPushNotification($title, $body));
+        dispatch(new SendPushNotification($user,$title,$body));
         dispatch_notify:
         // @TODO Send email & sms
         return $this->respondSuccess($request_result, 'request_ended');

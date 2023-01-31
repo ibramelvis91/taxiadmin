@@ -21,15 +21,19 @@ class FrontPageController extends Controller
 
         $conditional_host = explode('.',$host_name);
 
+        if($conditional_host[0] =='tagxi-super-docs'){
+            
+            return redirect('user-manual');
+
+        }
         
-        
-        if($conditional_host[0] =='admin'){
+        if($conditional_host[0] =='tagxi-super-server'){
             
             return redirect('login');
 
         }
         
-        if($conditional_host[0] =='dispatcher'){
+        if($conditional_host[0] =='tagxi-super-dispatcher'){
 
         return redirect('dispatch-login');
 

@@ -18,6 +18,7 @@ use App\Base\Constants\Masters\DriverDocumentStatus;
 use App\Base\Services\ImageUploader\ImageUploaderContract;
 use App\Http\Requests\Admin\Driver\DriverDocumentUploadRequest;
 use Kreait\Firebase\Contract\Database;
+use App\Jobs\Notifications\SendPushNotification;
 
 class DriverDocumentController extends BaseController
 {
@@ -43,7 +44,12 @@ class DriverDocumentController extends BaseController
 
     public function index(Driver $driver)
     {
+        if($driver->owner_id){
+        $neededDocument = DriverNeededDocument::where('is_individual',0)->whereActive(true)->get();
+        }else{
         $neededDocument = DriverNeededDocument::whereActive(true)->get();
+
+        }
         $driverDoc = DriverDocument::whereDriverId($driver->id)->get();
 
         $page = trans('pages_names.driver_document');
@@ -158,6 +164,6 @@ class DriverDocumentController extends BaseController
         
         // dispatch(new NotifyViaMqtt('approval_status_'.$driver_details->id, json_encode($socket_data), $driver_details->id));
 
-        $user->notify(new AndroidPushNotification($title, $body, $push_data));
+        dispatch(new SendPushNotification($user,$title,$body));
     }
 }

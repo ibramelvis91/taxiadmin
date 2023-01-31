@@ -9,9 +9,9 @@ class Role
     const ADMIN = 'admin';
     const DRIVER = 'driver';
     const DISPATCHER = 'dispatcher';
-    const DEVELOPER = 'developer';
-    const CLIENT = 'client';
     const OWNER = 'owner';
+    const DELIVERY_DISPATCHER = 'delivery-dispatcher';
+
 
 
     /**
@@ -25,8 +25,21 @@ class Role
             self::SUPER_ADMIN,
             self::ADMIN,
             self::DISPATCHER,
+            self::DELIVERY_DISPATCHER,
         ];
     }
+
+    /* dispatchRoles */
+
+        public static function dispatchRoles()
+        {
+            return [
+                self::DISPATCHER,
+                self::DELIVERY_DISPATCHER,
+            ];
+        }
+
+    
     /**
      * Get all the admin roles.
      *
@@ -49,8 +62,6 @@ class Role
         return [
             self::SUPER_ADMIN,
             self::ADMIN,
-            self::DEVELOPER,
-            self::CLIENT,
             self::OWNER,
         ];
     }

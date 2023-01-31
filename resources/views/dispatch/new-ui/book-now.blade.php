@@ -723,8 +723,8 @@
                 };
 
                 function initialize() {
-                    var centerLat = parseFloat("{{ auth()->user()->admin->serviceLocationDetail->zones()->pluck('lat')->first() ?? 11.015956}}");
-                    var centerLng = parseFloat("{{ auth()->user()->admin->serviceLocationDetail->zones()->pluck('lng')->first() ?? 76.968985}}");
+                    var centerLat = parseFloat("{{ auth()->user()->admin->serviceLocationDetail->zones()->pluck('lat')->first() ?? get_settings('default_latitude')}}");
+                    var centerLng = parseFloat("{{ auth()->user()->admin->serviceLocationDetail->zones()->pluck('lng')->first() ?? get_settings('default_longitude')}}");
                     var pickup = document.getElementById('pickup');
                     var drop = document.getElementById('drop');//11.018511, 76.969897
                     var latlng = new google.maps.LatLng(centerLat,centerLng);
@@ -1180,6 +1180,8 @@
                         'drop_lat': dropLat,
                         'drop_lng': dropLng,
                         'ride_type': 1,
+                        'transport_type':'delivery',
+
                     };
 
                     fetch(url, {
@@ -1310,6 +1312,8 @@
                         'drop_lng': dropLng,
                         'vehicle_type': truckId,
                         'ride_type': 1,
+                        'transport_type':'delivery',
+
                     };
 
                     if (fareType) {
@@ -1367,7 +1371,9 @@
                         'pick_address': pickAdd,
                         'drop_address': dropAdd,
                         'pickup_poc_name': sender.name,
-                        'pickup_poc_mobile': sender.phone
+                        'pickup_poc_mobile': sender.phone,
+                        'transport_type':'taxi',
+
                     }
 
                     // if(typeof fareTypeId != "undefined"){

@@ -68,7 +68,7 @@
                             <ul class="error-style"></ul>
                         </div>
                     <img src="{{ fav_icon() ?? asset('images/favicon.png') }}" alt="">
-                        <h3 class="text-center">Dispatch Panel</h3>
+                        <h3 class="text-center">Taxi Dispatch Panel</h3>
                         <p class="login-box-msg"></p>
                         <!-- action="{{ url('api/spa/login') }}" method="post" -->
                         <form class="login_form" id="form" enctype="multipart/form-data">
